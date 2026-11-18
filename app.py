@@ -5,11 +5,12 @@ import tempfile, os
 
 st.set_page_config(page_title="LexiTech | Legal & Tax Document Assistant", page_icon="LEXItech.PNG")
 
+# Custom LexiTech Berry & Blush Theme (high-contrast dark text + soft blush inputs)
 st.markdown("""
     <style>
     .stApp { background-color: #FFFFFF; color: #1F1F24; }
     [data-testid="stSidebar"] { background-color: #FDF2F7; }
-    label, .stMarkdown, p, span { color: #1F1F24 !important; }
+    label, .stMarkdown, p, span, h1, h2, h3 { color: #1F1F24 !important; }
     .stSelectbox div[data-baseweb="select"] > div,
     .stTextArea textarea,
     .stTextInput input,
@@ -18,18 +19,23 @@ st.markdown("""
         color: #1F1F24 !important;
         border: 1px solid #E8C5D6 !important;
     }
-    .stButton > button {
+    .stButton > button, .stDownloadButton > button {
         background-color: #B81D6F !important;
         color: #FFFFFF !important;
-        border: none;
-        border-radius: 8px;
+        border: none !important;
+        border-radius: 8px !important;
     }
-    .stButton > button:hover { background-color: #961559 !important; }
-    .stButton > button p, .stButton > button span { color: #FFFFFF !important; }
+    .stButton > button:hover, .stDownloadButton > button:hover {
+        background-color: #961559 !important;
+    }
+    .stButton > button p, .stButton > button span,
+    .stDownloadButton > button p, .stDownloadButton > button span {
+        color: #FFFFFF !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-col1, col2 = st.columns()
+col1, col2 = st.columns([1, 4])
 with col1:
     st.image("LEXItech.PNG", width=115)
 with col2:
