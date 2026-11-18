@@ -150,3 +150,6 @@ if "last_report" in st.session_state:
         file_name=f"AI_Audit_{st.session_state['last_file']}.txt",
         mime="text/plain"
     )
+
+st.markdown("---")
+st.caption("© 2026 LexiTech by Heidi Seckman. All rights reserved. Proprietary software and branding—unauthorized copying or commercial redistribution is prohibited.")
