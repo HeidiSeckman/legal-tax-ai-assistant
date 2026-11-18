@@ -63,7 +63,6 @@ if st.button("Run AI Analysis"):
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# Display the result and Download button cleanly
 if "last_report" in st.session_state:
     st.success(f"Analysis Complete! (Powered by {st.session_state['last_model']})")
     st.markdown(st.session_state["last_report"])
@@ -72,3 +71,4 @@ if "last_report" in st.session_state:
         data=st.session_state["last_report"],
         file_name=f"AI_Audit_{st.session_state['last_file']}.txt",
         mime="text/plain"
+    )
