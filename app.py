@@ -5,7 +5,7 @@ import tempfile, os
 
 st.set_page_config(page_title="LexiTech | Legal & Tax Document Assistant", page_icon="LEXItech.PNG")
 
-# Custom LexiTech Berry & Blush Theme (high-contrast dark text + soft blush inputs)
+# Custom LexiTech Berry & Blush Theme (crisp white text on all buttons!)
 st.markdown("""
     <style>
     .stApp { background-color: #FFFFFF; color: #1F1F24; }
@@ -19,18 +19,36 @@ st.markdown("""
         color: #1F1F24 !important;
         border: 1px solid #E8C5D6 !important;
     }
-    .stButton > button, .stDownloadButton > button {
+    .stSelectbox div[data-baseweb="select"] span,
+    .stSelectbox div[data-baseweb="select"] div {
+        color: #1F1F24 !important;
+    }
+    button,
+    .stButton > button,
+    .stDownloadButton > button,
+    [data-testid="stFileUploaderDropzone"] button,
+    [data-testid="stTextInput"] button {
         background-color: #B81D6F !important;
         color: #FFFFFF !important;
         border: none !important;
         border-radius: 8px !important;
     }
-    .stButton > button:hover, .stDownloadButton > button:hover {
+    button:hover,
+    .stButton > button:hover,
+    .stDownloadButton > button:hover,
+    [data-testid="stFileUploaderDropzone"] button:hover,
+    [data-testid="stTextInput"] button:hover {
         background-color: #961559 !important;
     }
-    .stButton > button p, .stButton > button span,
-    .stDownloadButton > button p, .stDownloadButton > button span {
+    button *,
+    .stButton > button *,
+    .stDownloadButton > button *,
+    [data-testid="stFileUploaderDropzone"] button *,
+    [data-testid="stTextInput"] button * {
         color: #FFFFFF !important;
+    }
+    [data-testid="stTextInput"] button svg {
+        fill: #FFFFFF !important;
     }
     </style>
 """, unsafe_allow_html=True)
