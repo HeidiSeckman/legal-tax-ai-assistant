@@ -3,10 +3,30 @@ from google import genai
 from google.genai import types
 import tempfile, os
 
-st.set_page_config(page_title="Legal & Tax Document Assistant", page_icon="⚖️")
-st.title("⚖️ Legal & Tax Document AI Assistant")
-st.caption("For educational and professional research assistance only. Not legal or tax advice.")
+st.set_page_config(page_title="LexiTech | Legal & Tax Document Assistant", page_icon="LEXItech.PNG")
 
+st.markdown("""
+    <style>
+    .stApp { background-color: #FFFFFF; color: #1F1F24; }
+    [data-testid="stSidebar"] { background-color: #FDF2F7; }
+    .stButton > button {
+        background-color: #B81D6F;
+        color: #FFFFFF;
+        border: none;
+        border-radius: 8px;
+    }
+    .stButton > button:hover { background-color: #961559; color: #FFFFFF; }
+    </style>
+""", unsafe_allow_html=True)
+
+col1, col2 = st.columns([1, 4])
+with col1:
+    st.image("LEXItech.PNG", width=115)
+with col2:
+    st.title("Legal & Tax Document AI Assistant")
+    st.caption("Powered by LexiTech • For educational and professional research assistance only.")
+
+st.sidebar.image("LEXItech.PNG", width=130)
 api_key = st.sidebar.text_input("Enter Gemini API Key", type="password")
 
 mode = st.selectbox("Choose Analysis Mode:", [
