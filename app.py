@@ -5,7 +5,7 @@ import tempfile, os
 
 st.set_page_config(page_title="LexiTech | Legal & Tax Document Assistant", page_icon="LEXItech.PNG")
 
-# Custom LexiTech Berry & Blush Theme (including readable alert & spinner boxes!)
+# Custom LexiTech Berry & Blush Theme
 st.markdown("""
     <style>
     .stApp { background-color: #FFFFFF; color: #1F1F24; }
@@ -24,6 +24,7 @@ st.markdown("""
         color: #1F1F24 !important;
     }
     [data-testid="stAlert"],
+    [data-testid="stAlertContainer"],
     [data-testid="stNotification"],
     .stSpinner > div {
         background-color: #FDF2F7 !important;
@@ -32,6 +33,7 @@ st.markdown("""
         border-radius: 8px !important;
     }
     [data-testid="stAlert"] *,
+    [data-testid="stAlertContainer"] *,
     [data-testid="stNotification"] *,
     .stSpinner * {
         color: #1F1F24 !important;
@@ -62,6 +64,15 @@ st.markdown("""
     }
     [data-testid="stTextInput"] button svg {
         fill: #FFFFFF !important;
+    }
+    .lexitech-banner {
+        background-color: #FDF2F7;
+        border-left: 5px solid #B81D6F;
+        padding: 12px 16px;
+        border-radius: 8px;
+        color: #1F1F24;
+        font-weight: 600;
+        margin: 12px 0;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -131,7 +142,7 @@ if st.button("Run AI Analysis"):
                 st.error(f"Error: {e}")
 
 if "last_report" in st.session_state:
-    st.success(f"Analysis Complete! (Powered by {st.session_state['last_model']})")
+    st.markdown(f"<div class='lexitech-banner'>✨ Analysis Complete! • Powered by LexiTech ({st.session_state['last_model']})</div>", unsafe_allow_html=True)
     st.markdown(st.session_state["last_report"])
     st.download_button(
         label="📥 Download Study / Audit Report",
