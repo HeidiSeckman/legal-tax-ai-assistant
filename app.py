@@ -1,7 +1,7 @@
 import streamlit as st
 from google import genai
 from google.genai import types
-import tempfile, os, time
+import tempfile, os
 
 st.set_page_config(page_title="Legal & Tax Document Assistant", page_icon="⚖️")
 st.title("⚖️ Legal & Tax Document AI Assistant")
@@ -38,7 +38,6 @@ if st.button("Run AI Analysis"):
                     "If something is not in the document, state 'Not found in the attached document.'"
                 )
 
-                # Automatically find active Flash/Gemini models on this API key
                 models = [m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name and "flash" in m.name]
                 if not models:
                     models = [m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name]
@@ -51,8 +50,9 @@ if st.button("Run AI Analysis"):
                             contents=[gemini_file, f"Mode: {mode}\n\nRequest: {user_question}"],
                             config=types.GenerateContentConfig(system_instruction=instruction)
                         )
-                        st.success(f"Analysis Complete! (Powered by {model_name})")
-                        st.markdown(response.text)
+                        st.session_state["last_report"] = response.text
+                        st.session_state["last_model"] = model_name
+                        st.session_state["last_file"] = uploaded_pdf.name
                         success = True
                         break
                     except Exception:
@@ -62,3 +62,13 @@ if st.button("Run AI Analysis"):
                     st.warning("Google's free servers are experiencing a brief traffic spike. Wait 15 seconds and click Run AI Analysis again!")
             except Exception as e:
                 st.error(f"Error: {e}")
+
+# Display the result and Download button cleanly
+if "last_report" in st.session_state:
+    st.success(f"Analysis Complete! (Powered by {st.session_state['last_model']})")
+    st.markdown(st.session_state["last_report"])
+    st.download_button(
+        label="📥 Download Study / Audit Report",
+        data=st.session_state["last_report"],
+        file_name=f"AI_Audit_{st.session_state['last_file']}.txt",
+        mime="text/plain"
