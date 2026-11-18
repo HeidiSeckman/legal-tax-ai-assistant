@@ -5,7 +5,7 @@ import tempfile, os
 
 st.set_page_config(page_title="LexiTech | Legal & Tax Document Assistant", page_icon="LEXItech.PNG")
 
-# Custom LexiTech Berry & Blush Theme (crisp white text on all buttons!)
+# Custom LexiTech Berry & Blush Theme (including readable alert & spinner boxes!)
 st.markdown("""
     <style>
     .stApp { background-color: #FFFFFF; color: #1F1F24; }
@@ -21,6 +21,19 @@ st.markdown("""
     }
     .stSelectbox div[data-baseweb="select"] span,
     .stSelectbox div[data-baseweb="select"] div {
+        color: #1F1F24 !important;
+    }
+    [data-testid="stAlert"],
+    [data-testid="stNotification"],
+    .stSpinner > div {
+        background-color: #FDF2F7 !important;
+        color: #1F1F24 !important;
+        border: 1px solid #B81D6F !important;
+        border-radius: 8px !important;
+    }
+    [data-testid="stAlert"] *,
+    [data-testid="stNotification"] *,
+    .stSpinner * {
         color: #1F1F24 !important;
     }
     button,
