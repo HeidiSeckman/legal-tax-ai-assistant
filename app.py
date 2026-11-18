@@ -1,7 +1,7 @@
 import streamlit as st
 from google import genai
 from google.genai import types
-import tempfile, os
+import tempfile, os, time
 
 st.set_page_config(page_title="Legal & Tax Document Assistant", page_icon="⚖️")
 st.title("⚖️ Legal & Tax Document AI Assistant")
@@ -18,31 +18,47 @@ uploaded_pdf = st.file_uploader("Upload a PDF Document (Contract, Lease, or IRS 
 user_question = st.text_area("What would you like to analyze or check?", 
     value="Scan this document for high-risk clauses, missing protections, or key rules, and cite exact page numbers.")
 
-if st.button("Run AI Analysis") and uploaded_pdf and api_key:
-    with st.spinner("Reading document and checking rules..."):
-        try:
-            client = genai.Client(api_key=api_key)
-            with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-                tmp.write(uploaded_pdf.read())
-                tmp_path = tmp.name
+if st.button("Run AI Analysis"):
+    if not api_key or not uploaded_pdf:
+        st.warning("Make sure you entered your API key on the left and uploaded a PDF!")
+    else:
+        with st.spinner("Reading document and checking rules..."):
+            try:
+                client = genai.Client(api_key=api_key)
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+                    tmp.write(uploaded_pdf.read())
+                    tmp_path = tmp.name
 
-            gemini_file = client.files.upload(file=tmp_path)
-            os.remove(tmp_path)
+                gemini_file = client.files.upload(file=tmp_path)
+                os.remove(tmp_path)
 
-            instruction = (
-                "You are a meticulous legal and tax research assistant. Answer ONLY using facts "
-                "from the attached PDF. Cite exact section and page numbers for every point. "
-                "If something is not in the document, state 'Not found in the attached document.'"
-            )
+                instruction = (
+                    "You are a meticulous legal and tax research assistant. Answer ONLY using facts "
+                    "from the attached PDF. Cite exact section and page numbers for every point. "
+                    "If something is not in the document, state 'Not found in the attached document.'"
+                )
 
-            response = client.models.generate_content(
-                model="gemini-flash-lite-latest",
-                contents=[gemini_file, f"Mode: {mode}\n\nRequest: {user_question}"],
-                config=types.GenerateContentConfig(system_instruction=instruction)
-            )
-            st.success("Analysis Complete!")
-            st.markdown(response.text)
-        except Exception as e:
-            st.error(f"Error: {e}")
-elif st.button("Test Check"):
-    st.warning("Make sure you entered your API key on the left and uploaded a PDF!")
+                # Automatically find active Flash/Gemini models on this API key
+                models = [m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name and "flash" in m.name]
+                if not models:
+                    models = [m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name]
+
+                success = False
+                for model_name in models:
+                    try:
+                        response = client.models.generate_content(
+                            model=model_name,
+                            contents=[gemini_file, f"Mode: {mode}\n\nRequest: {user_question}"],
+                            config=types.GenerateContentConfig(system_instruction=instruction)
+                        )
+                        st.success(f"Analysis Complete! (Powered by {model_name})")
+                        st.markdown(response.text)
+                        success = True
+                        break
+                    except Exception:
+                        continue
+
+                if not success:
+                    st.warning("Google's free servers are experiencing a brief traffic spike. Wait 15 seconds and click Run AI Analysis again!")
+            except Exception as e:
+                st.error(f"Error: {e}")
