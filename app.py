@@ -9,7 +9,7 @@ st.markdown("""
 <style>
 .lexi-float-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 64px;
     right: 20px;
     z-index: 99999;
     background: linear-gradient(135deg, #24101C 0%, #881652 100%);
