@@ -5,46 +5,6 @@ from PIL import Image
 import tempfile, os, base64, io
 
 st.set_page_config(page_title="LexiTech 2.0 | Legal & Tax Document Assistant", page_icon="LEXItech.PNG", layout="wide")
-st.markdown("""
-<style>
-.lexi-float-btn {
-    position: fixed;
-    bottom: 64px;
-    right: 20px;
-    z-index: 99999;
-    background: linear-gradient(135deg, #24101C 0%, #881652 100%);
-    color: #FFFFFF !important;
-    border: 1.5px solid #FF2A85;
-    border-radius: 999px;
-    padding: 6px 18px 6px 8px;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-weight: 700;
-    font-size: 13.5px;
-    text-decoration: none !important;
-    box-shadow: 0 6px 24px rgba(184, 29, 111, 0.45);
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-.lexi-float-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 42, 133, 0.75);
-}
-.lexi-float-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center 28%;
-    border: 1.5px solid #F9A8D4;
-    background: #12050D;
-}
-</style>
-<a class="lexi-float-btn" href="https://heidiseckman.github.io/LEXI/" target="_blank" rel="noopener">
-    <img class="lexi-float-avatar" src="https://heidiseckman.github.io/LEXI/" alt="LEXI" />
-    <span>Ask LEXI</span>
-</a>
-""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
@@ -89,7 +49,6 @@ LOGO_SVG = f"""
   </div>
 </div>
 """
-
 with st.sidebar:
     st.markdown(LOGO_SVG, unsafe_allow_html=True)
     st.markdown("---")
@@ -100,6 +59,7 @@ with st.sidebar:
     st.caption("Strict closed-book retrieval with mandatory section, tab, and page citations.")
     st.markdown("---")
     st.caption("Architected by **Heidi Seckman**")
+
 st.markdown(f"""
 <div class="nav-bar">
   {LOGO_SVG}
@@ -138,20 +98,16 @@ if st.button("⚡ Execute Document Audit"):
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
                     tmp.write(uploaded_pdf.read())
                     tmp_path = tmp.name
-
                 gemini_file = client.files.upload(file=tmp_path)
                 os.remove(tmp_path)
-
                 instruction = (
                     "You are LexiTech 2.0, a meticulous legal and tax research auditor. Answer ONLY using facts "
                     "from the attached PDF. Cite exact section, tab, and page numbers for every point. "
                     "If something is not in the document, state 'Not found in the attached document.'"
                 )
-
                 models = tuple(m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name and "flash" in m.name)
                 if not models:
                     models = tuple(m.name.replace("models/", "") for m in client.models.list() if "gemini" in m.name)
-
                 success = False
                 for model_name in models:
                     try:
@@ -167,7 +123,6 @@ if st.button("⚡ Execute Document Audit"):
                         break
                     except Exception:
                         continue
-
                 if not success:
                     st.warning("Google's free servers are experiencing a brief traffic spike. Wait 15 seconds and click Execute Document Audit again!")
             except Exception as e:
