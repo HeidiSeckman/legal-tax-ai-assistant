@@ -5,6 +5,46 @@ from PIL import Image
 import tempfile, os, base64, io
 
 st.set_page_config(page_title="LexiTech 2.0 | Legal & Tax Document Assistant", page_icon="LEXItech.PNG", layout="wide")
+st.markdown("""
+<style>
+.lexi-float-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 99999;
+    background: linear-gradient(135deg, #24101C 0%, #881652 100%);
+    color: #FFFFFF !important;
+    border: 1.5px solid #FF2A85;
+    border-radius: 999px;
+    padding: 6px 18px 6px 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 13.5px;
+    text-decoration: none !important;
+    box-shadow: 0 6px 24px rgba(184, 29, 111, 0.45);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.lexi-float-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 42, 133, 0.75);
+}
+.lexi-float-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 28%;
+    border: 1.5px solid #F9A8D4;
+    background: #12050D;
+}
+</style>
+<a class="lexi-float-btn" href="https://heidiseckman.github.io/LEXI/" target="_blank" rel="noopener">
+    <img class="lexi-float-avatar" src="https://github.io" alt="LEXI" />
+    <span>Ask LEXI</span>
+</a>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
