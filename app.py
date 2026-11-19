@@ -40,7 +40,7 @@ st.markdown("""
     background: #12050D;
 }
 </style>
-<a class="lexi-float-btn" href="https://heidiseckman.github.io/LEXI/LEXI_avatar.png" target="_blank" rel="noopener">
+<a class="lexi-float-btn" href="https://heidiseckman.github.io/LEXI/" target="_blank" rel="noopener">
     <img class="lexi-float-avatar" src="https://heidiseckman.github.io/LEXI/" alt="LEXI" />
     <span>Ask LEXI</span>
 </a>
